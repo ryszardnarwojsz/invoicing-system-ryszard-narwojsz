@@ -8,9 +8,9 @@ name: Java CI
 on:
 
   push:
-   branches: [ master ]
+   branches: [ task_* ]
   pull_request:
-    branches: [ master ]
+    branches: [ task_* ]
 
 workflow_dispatch:
 
