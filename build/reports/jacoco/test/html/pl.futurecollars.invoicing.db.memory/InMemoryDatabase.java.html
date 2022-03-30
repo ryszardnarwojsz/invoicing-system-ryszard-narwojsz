@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InMemoryDatabase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">invoicing-system-ryszard-narwojsz</a> &gt; <a href="index.source.html" class="el_package">pl.futurecollars.invoicing.db.memory</a> &gt; <span class="el_source">InMemoryDatabase.java</span></div><h1>InMemoryDatabase.java</h1><pre class="source lang-java linenums">package pl.futurecollars.invoicing.db.memory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import pl.futurecollars.invoicing.db.Database;
+import pl.futurecollars.invoicing.model.Invoice;
+
+<span class="fc" id="L10">public class InMemoryDatabase implements Database {</span>
+
+<span class="fc" id="L12">  private final Map&lt;Integer, Invoice&gt; newInvoiceSet = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L13">  private int nextId = 1;</span>
+
+  @Override
+  public int save(Invoice invoice) {
+<span class="fc" id="L17">    invoice.setId(nextId);</span>
+<span class="fc" id="L18">    newInvoiceSet.put(nextId, invoice);</span>
+<span class="fc" id="L19">    return nextId++;</span>
+  }
+
+  @Override
+  public Invoice getById(int id) {
+<span class="nc" id="L24">    return newInvoiceSet.get(id);</span>
+  }
+
+  @Override
+  public List&lt;Invoice&gt; getAll() {
+<span class="fc" id="L29">    return new ArrayList&lt;&gt;(newInvoiceSet.values());</span>
+  }
+
+  @Override
+  public void update(int id, Invoice updatedInvoice) {
+<span class="nc bnc" id="L34" title="All 2 branches missed.">    if (!newInvoiceSet.containsKey(id)) {</span>
+<span class="nc" id="L35">      throw new IllegalArgumentException(&quot;Invoice id: &quot; + id + &quot; does not exist&quot;);</span>
+    }
+<span class="nc" id="L37">    updatedInvoice.setId(id);</span>
+<span class="nc" id="L38">    newInvoiceSet.put(id, updatedInvoice);</span>
+<span class="nc" id="L39">  }</span>
+
+  @Override
+  public void delete(int id) {
+<span class="nc" id="L43">    newInvoiceSet.remove(id);</span>
+<span class="nc" id="L44">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
